@@ -131,6 +131,7 @@ module Sprockets
 
         # Read into memory and process if theres a processor pipeline
         if processors.any?
+          process_start_time = Time.now
           result = call_processors(processors, {
             environment: self,
             cache: self.cache,
@@ -141,6 +142,8 @@ module Sprockets
             content_type: type,
             metadata: { dependencies: dependencies }
           })
+          compile_time = Time.now - process_start_time
+
           validate_processor_result!(result)
           source = result.delete(:data)
           metadata = result
@@ -170,6 +173,8 @@ module Sprockets
 
         asset[:id]  = pack_hexdigest(digest(asset))
         asset[:uri] = build_asset_uri(unloaded.filename, unloaded.params.merge(id: asset[:id]))
+
+        asset[:compile_time] = compile_time || 0.0
 
         # Deprecated: Avoid tracking Asset mtime
         asset[:mtime] = metadata[:dependencies].map { |u|

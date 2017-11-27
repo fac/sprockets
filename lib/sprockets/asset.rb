@@ -26,6 +26,7 @@ module Sprockets
       @name         = attributes[:name]
       @source       = attributes[:source]
       @uri          = attributes[:uri]
+      @compile_time = attributes[:compile_time]
     end
 
     # Internal: Return all internal instance variables as a hash.
@@ -58,6 +59,11 @@ module Sprockets
     #
     # Returns URI.
     attr_reader :uri
+
+    # Public: Time for the assets to be precompiled
+    #
+    # returns a Float
+    attr_reader :compile_time
 
     # Public: Return logical path with digest spliced in.
     #
