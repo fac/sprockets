@@ -16,6 +16,10 @@ module AssetTests
     assert_equal @asset, @env.load(@asset.uri)
   end
 
+  test "compile time" do
+    assert @asset.compile_time
+  end
+
   test "length is source length" do
     assert_equal @asset.to_s.length, @asset.length
   end
